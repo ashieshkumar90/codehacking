@@ -19,8 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('admin', function(){
-    return view('admin.index');
+
+
+Route::group(['middleware'=>'admin'], function(){
+    Route::resource('admin/user', 'AdminController');
+    Route::get('admin', function(){
+        return view('admin.index');
+    })->name('admin_dashboard');
 });
 
-Route::resource('admin/user', 'AdminController');
+
+
