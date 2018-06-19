@@ -23,12 +23,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            @if(Session::has('msg'))
-                                <div class="{{ Session::get('class') }} alert-dismissible">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <strong>Congratulation!</strong> {{ Session::get('msg') }}
-                                </div>
-                            @endif
+                            @include('common_functionality.flash_message')
                         </div>
                         <!-- /.box-header -->
 
@@ -53,7 +48,7 @@
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$user->name}}</td>
-                                            <td><img style="height: 50px; width:50px;" src="{{$user->photo->first()['path'] ? asset($user->photo->first()['path']) : 'http://www.placeholde.com/50x50'}}" alt=""></td>
+                                            <td><img style="height: 50px; width:50px;" src="{{$user->photo->first()['path'] ? asset('uploads/user/'.$user->photo->first()['path']) : 'http://www.placeholde.com/50x50'}}" alt=""></td>
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->role->name}}</td>
                                             <td>{{$user->is_active ? 'Active' : 'Inactive'}}</td>
@@ -65,7 +60,7 @@
                                                 </div>
                                                 <div class="col-md-6" style="padding-left: 0px;">
                                                     {!! Form::open(['method'=>'delete', 'route'=>['user.destroy', $user->id] ]) !!}
-                                                        {!! Form::submit('Delete', ['class'=>'btn btn-danger']) !!}
+                                                        {!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Do you want to delete this User ?')"]) !!}
                                                     {!! Form::close() !!}
                                                 </div>
 

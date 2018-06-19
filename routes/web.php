@@ -22,10 +22,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(['middleware'=>'admin'], function(){
-    Route::resource('admin/user', 'AdminController');
     Route::get('admin', function(){
         return view('admin.index');
     })->name('admin_dashboard');
+    Route::resource('admin/user', 'AdminController');
+    Route::resource('admin/post', 'AdminPostController');
+    Route::resource('admin/category', 'AdminCategoryController');
+
+
 });
 
 

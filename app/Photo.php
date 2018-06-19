@@ -12,8 +12,8 @@ class Photo extends Model
         return $this->morphTo();
     }
 
-    public function getPathAttribute($value)
-    {
-        return 'uploads/user/'.$value;
-    }
+//    public function getPathAttribute($value)
+//    {
+//        return 'uploads/user/'.$value;
+//    }
 }

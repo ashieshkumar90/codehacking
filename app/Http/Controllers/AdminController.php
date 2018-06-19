@@ -47,6 +47,7 @@ class AdminController extends Controller
         //dd($form_data);
         $form_data['password'] = bcrypt($request->password);
         $user = User::create($form_data);
+        //dd($user);
         if($file = $request->file('photo_id'))
         {
             $name = time().'_'.$file->getClientOriginalName();
@@ -85,7 +86,7 @@ class AdminController extends Controller
         $data['user']   = User::findOrFail($id);
         if( $photo_record_status = $data['user']->photo->first())
         {
-            $data['profile_photo'] = $photo_record_status->path;
+            $data['profile_photo'] = 'uploads/user/'.$photo_record_status->path;
         }
         else
         {
@@ -123,7 +124,15 @@ class AdminController extends Controller
             $name = time().'_'.$file->getClientOriginalName();
             $file->move('uploads/user', $name);
 
-            $user->photo()->update(['path'=>$name]);
+            if($user->photo->first())
+            {
+                @unlink('uploads/user/'.$user->photo->first()->path);
+                $user->photo()->update(['path'=>$name]);
+            }
+            else
+            {
+                $user->photo()->create(['path'=>$name]);
+            }
         }
         Session::flash('class', 'alert alert-success');
         Session::flash('msg', 'User Updated Successfully');

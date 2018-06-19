@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -348,7 +349,7 @@
 
                 <li class="treeview {{ Request::is(['admin/user/*', 'admin/user']) ? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-files-o"></i>
+                        <i class="fa fa-user"></i>
                         <span>User</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -357,6 +358,20 @@
                     <ul class="treeview-menu">
                         <li><a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i> User List</a></li>
                         <li><a href="{{route('user.create')}}"><i class="fa fa-circle-o"></i> Create User</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview {{ Request::is('admin/post', 'admin/post/*') ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Post</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('post.index')}}"><i class="fa fa-circle-o"></i> Post List</a></li>
+                        <li><a href="{{route('post.create')}}"><i class="fa fa-circle-o"></i> Create Post</a></li>
                     </ul>
                 </li>
                 <li>
@@ -753,9 +768,11 @@
 <!-- DataTables -->
 <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<!-- CK Editor -->
+<script src="{{ asset('plugins/ckeditor/ckeditor.js') }}"></script>
 <script>
     $(function () {
-        $('#example1').DataTable()
+        $('#example1').DataTable();
         $('#example2').DataTable({
             'paging'      : true,
             'lengthChange': false,
@@ -763,8 +780,9 @@
             'ordering'    : true,
             'info'        : true,
             'autoWidth'   : false
-        })
-    })
+        });
+        CKEDITOR.replace('editor1');
+    });
 </script>
 </body>
 </html>
