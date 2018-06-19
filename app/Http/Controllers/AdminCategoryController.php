@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Category;
+use App\Http\Requests\CategoryRequest;
 
 class AdminCategoryController extends Controller
 {
@@ -13,7 +15,8 @@ class AdminCategoryController extends Controller
      */
     public function index()
     {
-        
+        $data['categories'] = Category::all();
+        return view('admin.category.index', $data);
     }
 
     /**
@@ -23,7 +26,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -32,9 +35,14 @@ class AdminCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+        $form_data = $request->all();
+        Category::create($form_data);
+
+        session()->flash('msg', 'Category Created Successfully');
+        session()->flash('class', 'alert alert-success');
+        return redirect('admin/category');
     }
 
     /**
@@ -56,7 +64,8 @@ class AdminCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['category'] = Category::findOrFail($id);
+        return view('admin.category.edit', $data);
     }
 
     /**
@@ -66,9 +75,14 @@ class AdminCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        //
+        $form_data = $request->all();
+        Category::findOrFail($id)->update($form_data);
+
+        session()->flash('msg', 'Category Updated Successfully');
+        session()->flash('class', 'alert alert-success');
+        return redirect('admin/category');
     }
 
     /**
@@ -79,6 +93,9 @@ class AdminCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::findOrFail($id)->delete();
+        session()->flash('msg', 'Category Deleted Successfully');
+        session()->flash('class', 'alert alert-warning');
+        return redirect('admin/category');
     }
 }
